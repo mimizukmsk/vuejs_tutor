@@ -1,10 +1,11 @@
-# tutorial_vuejs_todo_management
+# Todo management tool
 
-> A Vue.js project
+A Vue.js project of tutorial
+[vue-cli で始める Vue.js チュートリアル](https://qiita.com/sin_tanaka/items/29769266b3b078ea0f7c)
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
