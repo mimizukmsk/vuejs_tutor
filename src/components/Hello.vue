@@ -18,7 +18,10 @@
       <label class="task-list__item" v-for="todo in todos" :key="todo.id">
         <!-- todo.text で、todoのtextプロパティを呼べる -->
         <!-- checkboxをtodoのdoneプロパティとバインド -->
-        <input type="checkbox" v-model="todo.done"><button>Edit</button>{{ todo.text }}
+        <input type="checkbox" v-model="todo.done">
+        <input type="checkbox" v-model="todo.editing">
+        <input v-if="todo.editing" v-model="todo.text" @keyup.enter="todo.editing = !todo.editing">
+        <span v-else>{{ todo.text }}</span>
       </label>
     </div>
   </div>
@@ -51,7 +54,10 @@ export default {
       // 入力されていればtodosに入れる
       this.todos.push({
         text: text,
-        done: false
+        // 完了しているかどうかの検知
+        done: false,
+        // 編集状態を検知
+        editing: false
       })
       // 再びnewTodoを空文字列に
       this.newTodo = ''
