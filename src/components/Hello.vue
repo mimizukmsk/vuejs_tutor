@@ -2,10 +2,14 @@
   <div>
     {{ msg }}
     <form>
-      <button>Add task</button>
-      <button>Delete finished task</button>
-      <p>input: <input type="text"></p>
-      <p>task:</p>
+      <!-- JS内のイベントとボタンのクリックをバインド -->
+      <!-- また、v-on: => @ なので、@clickとも書ける -->
+      <button v-on:click="addTodo()">Add task</button>
+      <button @click="removeTodo()">Delete finished task</button>
+      <!-- 双方向バインディング => JS側と画面側で互いを紐付けて、片方の変更がもう片方に相互に反映されるようになる -->
+      <p>input: <input type="text" v-model="newTodo"></p>
+      <!-- 上記inputに入力された値がJSに送られ、こちらに表示される -->
+      <p>task: {{ newTodo }}</p>
     </form>
     <div class="task-list">
       <!-- v-forでfor文形式で要素を繰り返すことができる -->
@@ -13,7 +17,8 @@
       <!-- また、:key は各々のフォームを動的に使用する際に、与えた項目のどの要素でフォームと紐付ける(バインド)かを決定する -->
       <label class="task-list__item" v-for="todo in todos" :key="todo.id">
         <!-- todo.text で、todoのtextプロパティを呼べる -->
-        <input type="checkbox"><button>Edit</button>{{ todo.text }}
+        <!-- checkboxをtodoのdoneプロパティとバインド -->
+        <input type="checkbox" v-model="todo.done"><button>Edit</button>{{ todo.text }}
       </label>
     </div>
   </div>
@@ -30,7 +35,33 @@ export default {
         {text: 'vuex', done: false},
         {text: 'vue-loader', done: false},
         {text: 'awesome-vue', done: true}
-      ]
+      ],
+      // HTMLで値が入力されるので、空白文字列で初期化
+      newTodo: ''
+    }
+  },
+  methods: {
+    addTodo: function (event) {
+      // trim => 呼び出し元の両端から空白を取り除く
+      // a && b => a が trueなら b を代入
+      let text = this.newTodo && this.newTodo.trim()
+      // 何も入力されていなければそのまま
+      if (!text) {
+      }
+      // 入力されていればtodosに入れる
+      this.todos.push({
+        text: text,
+        done: false
+      })
+      // 再びnewTodoを空文字列に
+      this.newTodo = ''
+    },
+    removeTodo: function (event) {
+      for (let i = this.todos.length - 1; i >= 0; i--) {
+        // もしdone===trueのtodoがあれば、リストから消去する
+        // splice(i, n, e) => 配列の内容を変更する。iのindexの前からn個の要素に対してeを追加する
+        if (this.todos[i].done) this.todos.splice(i, 1)
+      }
     }
   }
 }
