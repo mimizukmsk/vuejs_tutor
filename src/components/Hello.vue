@@ -2,22 +2,17 @@
   <div>
     {{ msg }}
     <form>
-      <!-- JS内のイベントとボタンのクリックをバインド -->
-      <!-- また、v-on: => @ なので、@clickとも書ける -->
-      <button v-on:click="addTodo()">Add task</button>
+      <button @click="addTodo()">Add task</button>
       <button @click="removeTodo()">Delete finished task</button>
-      <!-- 双方向バインディング => JS側と画面側で互いを紐付けて、片方の変更がもう片方に相互に反映されるようになる -->
       <p>input: <input type="text" v-model="newTodo"></p>
-      <!-- 上記inputに入力された値がJSに送られ、こちらに表示される -->
       <p>task: {{ newTodo }}</p>
     </form>
     <div class="task-list">
-      <!-- v-forでfor文形式で要素を繰り返すことができる -->
-      <!-- todo in todos で、dataのtodos配列を一個ずつ取り出している -->
-      <!-- また、:key は各々のフォームを動的に使用する際に、与えた項目のどの要素でフォームと紐付ける(バインド)かを決定する -->
-      <label class="task-list__item" v-for="todo in todos" :key="todo.id">
-        <!-- todo.text で、todoのtextプロパティを呼べる -->
-        <!-- checkboxをtodoのdoneプロパティとバインド -->
+      <!-- todo.done が true の場合、checked のクラスを付与する-->
+      <label class="task-list__item"
+             v-for="todo in todos"
+             v-bind:key="todo.id"
+             v-bind:class="{ 'task-list__item--checked': todo.done }">
         <input type="checkbox" v-model="todo.done">
         <input type="checkbox" v-model="todo.editing">
         <input v-if="todo.editing" v-model="todo.text" @keyup.enter="todo.editing = !todo.editing">
