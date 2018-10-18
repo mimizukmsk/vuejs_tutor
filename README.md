@@ -1,6 +1,6 @@
 # Todo management tool
 
-A Vue.js project of tutorial
+A Vue.js project of tutorial  
 [vue-cli で始める Vue.js チュートリアル](https://qiita.com/sin_tanaka/items/29769266b3b078ea0f7c)
 
 ## Build Setup
